@@ -23,6 +23,7 @@ transform_mature_mirna_to_seed_sequence <- function(mature_mirnas_fasta_filename
 				   format="fasta")
 	mature <- mature[grepl("^xla-",
 			       names(mature))]
+	seed_names <- names(mature)
 	offset_k6mer <- subseq(mature,
 			       start=3,
 			       width=6)
@@ -31,17 +32,27 @@ transform_mature_mirna_to_seed_sequence <- function(mature_mirnas_fasta_filename
 			start=2,
 			width=6)
 
-	k7mer_A1 <- subseq(mature,
-			   start=1,
-			   width=7)
+	k7mer_A1 <- RNAStringSet(
+				paste("U",
+			  		subseq(mature,
+					start=2,
+			   		width=6),
+			  	sep="")
+				)
+	names(k7mer_A1) <- seed_names
 
 	k7mer_m8 <- subseq(mature,
 			   start=2,
 			   width=7)
 
-	k8mer <- subseq(mature,
-			start=1,
-			width=8)
+	k8mer <- RNAStringSet(
+			      paste("U",
+				subseq(mature,
+					start=2,
+					width=7),
+				sep="")
+			      )
+	names(k8mer) <- seed_names
 
 	seeds <- list(
 		      offset_k6mer = reverseComplement(offset_k6mer),
